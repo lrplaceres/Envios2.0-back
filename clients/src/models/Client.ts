@@ -39,7 +39,7 @@ const clientSchema = new Schema(
         unique: true,
       },
     },
-    { versionKey: false, timeStamp: true }
+    { versionKey: false, timestamps: true }
   );
   
   export default model("Client", clientSchema);
