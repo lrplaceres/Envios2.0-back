@@ -24,7 +24,7 @@ export const createClient: RequestHandler = async (req, res, next) => {
         message = "El pasaporte ya existe";
 
       // En lugar de retornar, usar res y luego salir de la función
-      res.status(301).json({ message });
+      res.status(422).json({ message });
       return; // Para evitar que continúe ejecutándose
     }
 
