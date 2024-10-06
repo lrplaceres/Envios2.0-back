@@ -48,3 +48,47 @@ export const getClients: RequestHandler = async (req, res) => {
     res.json(error);
   }
 };
+
+export const getClient: RequestHandler = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const clientFound = await clientModel.findById(id);
+    if (!clientFound) {
+      res.status(204).json();
+      return;
+    }
+    res.json(clientFound);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+export const updateClient: RequestHandler = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const clientFound = await clientModel.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    if (!clientFound) {
+      res.status(204).json();
+      return;
+    }
+    res.json(clientFound);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+export const deleteClient: RequestHandler = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const clientFound = await clientModel.findByIdAndDelete(id);
+    if (!clientFound) {
+      res.status(204).json();
+      return;
+    }
+    res.json(clientFound);
+  } catch (error) {
+    res.json(error);
+  }
+};
