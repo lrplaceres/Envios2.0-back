@@ -1,6 +1,10 @@
 # Dependencias
 
 ```bash
+npm init -y
+```
+
+```bash
 npm i express mongoose morgan dotenv cors
 ```
 
