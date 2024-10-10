@@ -3,7 +3,7 @@ import officeModel from "../models/Office";
 
 export const createOffice: RequestHandler = async (req, res, next) => {
   try {
-    const { name, phone, phone2, phone3, address, latitud, longitud } = req.body;
+    const { name, phone, phone2, phone3, address, latitude, longitude } = req.body;
 
     // Verificar si alguno de los campos ya existe en la base de datos
     const existingOffice = await officeModel.findOne({

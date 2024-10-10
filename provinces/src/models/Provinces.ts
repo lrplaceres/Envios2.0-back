@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const officeSchema = new Schema(
+const provincesSchema = new Schema(
   {
     name: {
       type: String,
@@ -8,35 +8,23 @@ const officeSchema = new Schema(
       trim: true,
       unique: true,
     },
-    phone: {
-      type: String,
-      trim: true,
-    },
-    phone2: {
-      type: String,
-      require: true,
-      trim: true,
-    },
-    phone3: {
-      type: String,
-      require: true,
-      trim: true,
-    },
-    address: {
+    acronym: {
       type: String,
       require: true,
       trim: true,
     },
     latitude: {
       type: String,
+      require: true,
       trim: true,
     },
     longitude: {
-        type: String,
-        trim: true,
-      },
+      type: String,
+      require: true,
+      trim: true,
+    },
   },
   { versionKey: false, timestamps: true }
 );
 
-export default model("Office", officeSchema);
+export default model("Province", provincesSchema);

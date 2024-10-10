@@ -1,0 +1,11 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+export default {
+  MONGO_DATABASE: process.env.MONGO_DATABASE_PROVINCE,
+  MONGO_HOST: process.env.MONGO_HOST_PROVINCE,
+  MONGO_PORT: process.env.MONGO_PORT_PROVINCE,
+  MONGO_INITDB_ROOT_USERNAME: process.env.MONGO_INITDB_ROOT_USERNAME_PROVINCE,
+  MONGO_INITDB_ROOT_PASSWORD: process.env.MONGO_INITDB_ROOT_PASSWORD_PROVINCE,
+  APP_PORT: 4003,
+};
