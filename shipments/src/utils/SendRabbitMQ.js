@@ -3,7 +3,7 @@
 var amqp = require("amqplib/callback_api");
 import config from "../config";
 
-const sendRabbitMQ = (message) => {
+export const SendRabbitMQ = (queue, msg) => {
   amqp.connect(
     `amqp://${config.RABBITMQ_USER}:${config.RABBITMQ_PASSWORD}@${config.RABBITMQ_HOST}`,
     function (error0, connection) {
@@ -15,9 +15,6 @@ const sendRabbitMQ = (message) => {
           throw error1;
         }
 
-        const queue = config.RABBITMQ_QUEUE;
-        const msg = message;
-
         channel.assertQueue(queue, {
           durable: false,
         });
@@ -27,10 +24,10 @@ const sendRabbitMQ = (message) => {
       });
       setTimeout(function () {
         connection.close();
-        process.exit(0);
+        //process.exit(0);
       }, 500);
     }
   );
 };
 
-export default sendRabbitMQ;
+module.exports = {SendRabbitMQ}

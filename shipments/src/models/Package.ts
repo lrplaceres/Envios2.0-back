@@ -16,7 +16,7 @@ const packageSchema = new Schema(
       type: Number,
       require: true,
     },
-    weigth: {
+    weight: {
       type: Number,
       trim: true,
     },
@@ -28,4 +28,4 @@ const packageSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-export default model("Municipality", packageSchema);
+export default model("Package", packageSchema);

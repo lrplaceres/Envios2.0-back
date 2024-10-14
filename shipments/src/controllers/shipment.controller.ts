@@ -3,7 +3,8 @@ import shipmentModel from "../models/Shipment";
 import packageModel from "../models/Package";
 import Package from "../models/Package";
 import { packageInterface } from "../interfaces/package.interface";
-
+import { SendRabbitMQ } from "../utils/SendRabbitMQ";
+import config from "../config";
 
 export const createShipment: RequestHandler = async (req, res, next) => {
   try {
@@ -18,9 +19,9 @@ export const createShipment: RequestHandler = async (req, res, next) => {
       province,
       municipality,
       value_total,
-      value_aduana,
+      value_customs,
       value_shipment,
-      weigth,
+      weight,
       date,
       description,
       status_delivery,
@@ -40,9 +41,9 @@ export const createShipment: RequestHandler = async (req, res, next) => {
         province,
         municipality,
         value_total,
-        value_aduana,
+        value_customs,
         value_shipment,
-        weigth,
+        weight,
         date,
         description,
         status_delivery,
@@ -56,7 +57,7 @@ export const createShipment: RequestHandler = async (req, res, next) => {
       const savePackage = newPackage.save();
     });
 
-    
+    SendRabbitMQ(config.RABBITMQ_QUEUE, "Gracias");
 
     // Enviar la respuesta final
     res.json(saveShipment);
@@ -105,7 +106,7 @@ export const updateShipment: RequestHandler = async (req, res) => {
     oldPackages.map(async (old) => {
       await packageModel.findByIdAndDelete(old.id);
     });
-    
+
     //CAPTURAR E INSERTAR LOS NUEVOS PAQUETES
     const { packages } = req.body;
     packages.map((pack: packageInterface) => {

@@ -50,7 +50,7 @@ const shipmentSchema = new Schema(
       type: Number,
       require: true,
     },
-    value_aduana: {
+    value_customs: {
       type: Number,
       require: true,
     },
@@ -58,7 +58,7 @@ const shipmentSchema = new Schema(
       type: Number,
       require: true,
     },
-    weigth: {
+    weight: {
       type: Number,
       require: true,
     },

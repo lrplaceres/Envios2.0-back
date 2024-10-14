@@ -2,6 +2,6 @@ export interface packageInterface {
     shipment: string;
     type: string;
     price: Number;    
-    weigth: Number;    
+    weight: Number;    
     value_equipment: Number;    
 }

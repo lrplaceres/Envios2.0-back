@@ -23,6 +23,7 @@ npx tsc --init
 1. "target": "ES6"
 2. "rootDir": "./src"
 3. "outDir": "./dist"
+4. "allowJs": true
 
 ## package.json
 
