@@ -23,41 +23,38 @@ export const createShipment: RequestHandler = async (req, res, next) => {
       description,
       packages,
     } = req.body;
-    const packages_total=packages.length;
-    const facture_number = 1;
-    const code = randomUUID().toString();
-    const status = "Nuevo";
-    const status_delivery = "Nuevo";
 
-    if (
-      !client ||
-      !receipent ||
-      !office ||
-      !province ||
-      !municipality ||
-      !value_total ||
-      !value_customs ||
-      !value_shipment ||
-      !weight ||
-      !date ||
-      !description ||
-      !packages
-    ) {
-      let message = "";
-      if (!client) message = "El remitente es requerido";
-      if (!receipent) message = "El destinatario es requerido";
-      if (!office) message = "La oficina es requerida";
-      if (!province) message = "La provincia es requerida";
-      if (!municipality) message = "El municipio es requerido";
-      if (!value_total) message = "El valor total es requerido";
-      if (!value_customs) message = "El valor aduanal es requerido";
-      if (!value_shipment) message = "El valor del envío es requerido";
-      if (!weight) message = "El peso del envío es requerido";
-      if (!date) message = "La fecha del envío es requerido";
-      res.status(503).json({ message });
+    // Definir un objeto con los mensajes de error para cada campo requerido
+    const requiredFields: any = {
+      client: "El remitente es requerido",
+      receipent: "El destinatario es requerido",
+      office: "La oficina es requerida",
+      province: "La provincia es requerida",
+      municipality: "El municipio es requerido",
+      value_total: "El valor total es requerido",
+      value_customs: "El valor aduanal es requerido",
+      value_shipment: "El valor del envío es requerido",
+      weight: "El peso del envío es requerido",
+      date: "La fecha del envío es requerida",
+      packages: "Es requerido tener paquete",
+    };
+
+    // Encontrar el primer campo que falte
+    const missingField = Object.keys(requiredFields).find(
+      (field) => !req.body[field]
+    );
+
+    if (missingField) {
+      res.status(422).json({ message: requiredFields[missingField] });
       return;
     }
-    
+
+    const packages_total = packages?.length || 0;
+    const facture_number = 1;
+    const code = randomUUID().toString();
+    const status = "new";
+    const status_delivery = "new";
+
     // Si no existe, crear y guardar el destinatario
     const shipment = new shipmentModel({
       ...{
@@ -87,10 +84,13 @@ export const createShipment: RequestHandler = async (req, res, next) => {
       const savePackage = newPackage.save();
     });
 
-    SendRabbitMQ(config.RABBITMQ_QUEUE, {
-      text: "Gracias confiar en nosotros para gestionar su envío",
-      phone: "+5354455921",
-    });
+    SendRabbitMQ(
+      config.RABBITMQ_QUEUE,
+      JSON.stringify({
+        text: "Gracias confiar en nosotros para gestionar su envío",
+        cellphone: "+5354455921",
+      })
+    );
 
     // Enviar la respuesta final
     res.json(saveShipment);

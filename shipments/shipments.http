@@ -3,18 +3,45 @@
 GET {{api}}/shipments
 
 ###
-GET {{api}}/shipment/1
+GET {{api}}/shipment/670f3a87621cccf48f501964
 
 ###
 POST {{api}}/shipment
 Content-Type: application/json
 
 {
-    
+    "client" : "6702e870b632d5c0467ad330",
+    "receipent": "670ca1a5b310f3fdd5f35e21",
+    "office": "670ca292437021924c61630f",   
+    "province":"670ca292437021924c61630f",
+    "municipality":"670ca292437021924c61630f",
+    "value_total":"30",
+    "value_customs":"0",
+    "value_shipment":"30",
+    "weight":"1",
+    "date": "2024-10-14",
+    "description":"",
+    "packages": 
+        [
+            {"type": "Aseo",
+            "price": "5",
+            "weight": "6",
+            "value_equipment": "0"
+            }
+        ]    
 }
 
 ###
-DELETE {{api}}/shipment/1
+POST https://example.com/comments HTTP/1.1
+content-type: application/json
+
+{
+    "name": "sample",
+    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+}
+
+###
+DELETE {{api}}/shipment/670f3814a88cd5042c53625c
 
 ###
 PUT {{api}}/shipment/1

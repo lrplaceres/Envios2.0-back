@@ -24,7 +24,6 @@ const shipmentSchema = new Schema(
     facture_number: {
       type: Number,
       require: true,
-      unique: true,
     },
     status: {
       type: String,
