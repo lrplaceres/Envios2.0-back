@@ -1,0 +1,20 @@
+@api = http://localhost:4004
+
+GET {{api}}/shipments
+
+###
+GET {{api}}/shipment/1
+
+###
+POST {{api}}/shipment
+Content-Type: application/json
+
+{
+    
+}
+
+###
+DELETE {{api}}/shipment/1
+
+###
+PUT {{api}}/shipment/1

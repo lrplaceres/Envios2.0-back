@@ -5,6 +5,7 @@ import Package from "../models/Package";
 import { packageInterface } from "../interfaces/package.interface";
 import { SendRabbitMQ } from "../utils/SendRabbitMQ";
 import config from "../config";
+import { randomUUID } from "crypto";
 
 export const createShipment: RequestHandler = async (req, res, next) => {
   try {
@@ -12,10 +13,6 @@ export const createShipment: RequestHandler = async (req, res, next) => {
       client,
       receipent,
       office,
-      packages_total,
-      facture_number,
-      status,
-      code,
       province,
       municipality,
       value_total,
@@ -24,10 +21,43 @@ export const createShipment: RequestHandler = async (req, res, next) => {
       weight,
       date,
       description,
-      status_delivery,
       packages,
     } = req.body;
+    const packages_total=packages.length;
+    const facture_number = 1;
+    const code = randomUUID().toString();
+    const status = "Nuevo";
+    const status_delivery = "Nuevo";
 
+    if (
+      !client ||
+      !receipent ||
+      !office ||
+      !province ||
+      !municipality ||
+      !value_total ||
+      !value_customs ||
+      !value_shipment ||
+      !weight ||
+      !date ||
+      !description ||
+      !packages
+    ) {
+      let message = "";
+      if (!client) message = "El remitente es requerido";
+      if (!receipent) message = "El destinatario es requerido";
+      if (!office) message = "La oficina es requerida";
+      if (!province) message = "La provincia es requerida";
+      if (!municipality) message = "El municipio es requerido";
+      if (!value_total) message = "El valor total es requerido";
+      if (!value_customs) message = "El valor aduanal es requerido";
+      if (!value_shipment) message = "El valor del envío es requerido";
+      if (!weight) message = "El peso del envío es requerido";
+      if (!date) message = "La fecha del envío es requerido";
+      res.status(503).json({ message });
+      return;
+    }
+    
     // Si no existe, crear y guardar el destinatario
     const shipment = new shipmentModel({
       ...{
@@ -57,7 +87,10 @@ export const createShipment: RequestHandler = async (req, res, next) => {
       const savePackage = newPackage.save();
     });
 
-    SendRabbitMQ(config.RABBITMQ_QUEUE, "Gracias");
+    SendRabbitMQ(config.RABBITMQ_QUEUE, {
+      text: "Gracias confiar en nosotros para gestionar su envío",
+      phone: "+5354455921",
+    });
 
     // Enviar la respuesta final
     res.json(saveShipment);
