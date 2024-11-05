@@ -37,7 +37,6 @@ amqp.connect(
           const tel = objetoRecibido.cellphone;
           const chatId = tel.substring(1) + "@c.us";
           const number_details = await whatsapp.getNumberId(chatId);
-          console.log("aki")
           console.log("number_details %s",number_details)
           /*if (number_details) {
             const mensaje = objetoRecibido.text;
